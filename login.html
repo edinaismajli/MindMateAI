@@ -40,6 +40,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--pin
 
 .btn-google{width:100%;background:var(--white);border:1.5px solid var(--border);padding:12px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.6rem;color:var(--dark)}
 .btn-google:hover{background:var(--blue-ll);border-color:var(--blue)}
+.back-home{display:block;text-align:center;margin-top:1.25rem;color:var(--blue-d);text-decoration:none;font-size:.88rem;font-weight:800}
+.back-home:hover{color:var(--pink-d)}
 
 .msg{padding:10px 14px;border-radius:10px;font-size:.85rem;font-weight:700;margin-bottom:1rem;display:none}
 .msg.error{background:#FEE2E2;color:#DC2626;border:1px solid #FCA5A5;display:block}
@@ -74,8 +76,6 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--pin
       <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
     </div>
     <button class="btn-submit" onclick="doLogin()">Login</button>
-    <div class="divider">ose</div>
-    <button class="btn-google" onclick="doGoogle()">🌐 Vazhdo me Google</button>
   </div>
 
   <!-- REGISTER FORM -->
@@ -93,15 +93,13 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--pin
       <input type="password" id="regPass" placeholder="Min. 6 karaktere" onkeydown="if(event.key==='Enter')doRegister()"/>
     </div>
     <button class="btn-submit" onclick="doRegister()">Krijo llogari</button>
-    <div class="divider">ose</div>
-    <button class="btn-google" onclick="doGoogle()">🌐 Regjistrohu me Google</button>
   </div>
+
+  <a href="index.html" class="back-home">Kthehu ne Home</a>
 </div>
 
 <script type="module">
-import { login, register, onAuth } from "./firebase.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { auth } from "./firebase.js";
+import { login, register, onAuth } from "./api.js";
 
 // Nëse tashmë i loguar, shko te index
 onAuth(user => { if (user) window.location.href = "index.html"; });
@@ -130,7 +128,7 @@ window.doLogin = async () => {
     await login(email, pass);
     window.location.href = 'index.html';
   } catch(e) {
-    showMsg(e.code === 'auth/invalid-credential' ? 'Email ose password i gabuar.' : 'Gabim: ' + e.message);
+    showMsg(e.message || 'Email ose password i gabuar.');
   } finally { setLoading(false); }
 };
 
@@ -146,17 +144,10 @@ window.doRegister = async () => {
     showMsg('Llogaria u krijua! Duke të ridrejtuar...', 'success');
     setTimeout(() => window.location.href = 'index.html', 1200);
   } catch(e) {
-    showMsg(e.code === 'auth/email-already-in-use' ? 'Ky email është tashmë i regjistruar.' : 'Gabim: ' + e.message);
+    showMsg(e.message || 'Ky email eshte tashme i regjistruar.');
   } finally { setLoading(false); }
 };
 
-window.doGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  try {
-    await signInWithPopup(auth, provider);
-    window.location.href = 'index.html';
-  } catch(e) { showMsg('Google login dështoi.'); }
-};
 </script>
 </body>
 </html>
