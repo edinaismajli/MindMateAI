@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Dashboard — MindMATE AI+</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
 :root{
   --pink:#F9A8C0;--pink-d:#E07898;--pink-l:#FFD6E7;--pink-ll:#FFF0F5;
   --blue:#A8D4F9;--blue-d:#5FA8E0;--blue-l:#D6EEFF;--blue-ll:#EFF7FF;
@@ -14,63 +18,265 @@
   --bg:#FDFAFC;--white:#fff;--dark:#2D2A3A;--gray:#7A7A8C;--border:#EDE6EF;
   --shadow:0 4px 24px rgba(168,212,249,.13);
 }
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2.5rem;height:66px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.nav-logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.1rem;color:var(--pink-d);text-decoration:none}
+
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+  min-height:100vh;
+}
+
+nav{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:0 2.5rem;
+  height:66px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:900;
+  font-size:1.1rem;
+  color:var(--pink-d);
+  text-decoration:none;
+}
+
 .nav-logo .ai{color:var(--blue-d)}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;transition:color .2s;padding-bottom:3px}
+
+.nav-links{
+  display:flex;
+  gap:2rem;
+  list-style:none;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:var(--gray);
+  font-weight:600;
+  font-size:.9rem;
+  padding-bottom:3px;
+}
+
 .nav-links a:hover{color:var(--pink-d)}
-.nav-links a.active{color:var(--pink-d);font-weight:800;border-bottom:2px solid var(--pink)}
-.nav-avatar{background:linear-gradient(135deg,var(--pink),var(--blue));color:#fff;border:none;padding:10px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s}
-.nav-avatar:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(249,168,192,.35)}
 
-main{max-width:980px;margin:0 auto;padding:2.5rem 1.5rem}
-h1{font-size:1.6rem;font-weight:900;margin-bottom:.25rem}
-.sub{font-size:.88rem;color:var(--gray);margin-bottom:2rem}
+.nav-links a.active{
+  color:var(--pink-d);
+  font-weight:800;
+  border-bottom:2px solid var(--pink);
+}
 
-/* STAT CARDS */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
-.stat-card{background:var(--white);border-radius:16px;padding:1.1rem 1.25rem;border:1.5px solid var(--border);box-shadow:var(--shadow);display:flex;align-items:center;gap:.9rem;transition:transform .2s}
-.stat-card:hover{transform:translateY(-3px)}
-.stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
-.si-p{background:var(--pink-l)} .si-b{background:var(--blue-l)} .si-g{background:var(--green-l)} .si-p2{background:var(--pink-ll)}
-.stat-val{font-size:1.6rem;font-weight:900;line-height:1}
-.stat-lbl{font-size:.75rem;color:var(--gray);font-weight:600;margin-top:3px}
+.nav-avatar{
+  background:linear-gradient(135deg,var(--pink),var(--blue));
+  color:#fff;
+  border:none;
+  padding:10px 22px;
+  border-radius:50px;
+  font-family:'Nunito',sans-serif;
+  font-weight:800;
+  font-size:.9rem;
+  cursor:pointer;
+}
 
-/* MID ROW */
-.mid-row{display:grid;grid-template-columns:1.3fr 1fr;gap:1.2rem;margin-bottom:1.2rem}
+main{
+  max-width:980px;
+  margin:0 auto;
+  padding:2.5rem 1.5rem;
+}
 
-/* CHART CARD */
-.chart-card{background:var(--white);border-radius:20px;padding:1.4rem;border:1.5px solid var(--border);box-shadow:var(--shadow)}
-.card-title{font-size:1rem;font-weight:900;margin-bottom:1.1rem}
-.chart-wrap{position:relative;height:180px}
-.mood-y{position:absolute;left:0;top:0;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:6px 0;pointer-events:none}
-.mood-y span{font-size:1.1rem;line-height:1}
+h1{
+  font-size:1.6rem;
+  font-weight:900;
+  margin-bottom:.25rem;
+}
 
-/* TOP SUBJECTS */
-.subj-card{background:var(--white);border-radius:20px;padding:1.4rem;border:1.5px solid var(--border);box-shadow:var(--shadow)}
+.sub{
+  font-size:.88rem;
+  color:var(--gray);
+  margin-bottom:2rem;
+}
+
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+
+.stat-card{
+  background:var(--white);
+  border-radius:16px;
+  padding:1.1rem 1.25rem;
+  border:1.5px solid var(--border);
+  box-shadow:var(--shadow);
+  display:flex;
+  align-items:center;
+  gap:.9rem;
+}
+
+.stat-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.4rem;
+  flex-shrink:0;
+}
+
+.si-p{background:var(--pink-l)}
+.si-b{background:var(--blue-l)}
+.si-g{background:var(--green-l)}
+.si-p2{background:var(--pink-ll)}
+
+.stat-val{
+  font-size:1.6rem;
+  font-weight:900;
+  line-height:1;
+}
+
+.stat-lbl{
+  font-size:.75rem;
+  color:var(--gray);
+  font-weight:600;
+  margin-top:3px;
+}
+
+.mid-row{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:1.2rem;
+  margin-bottom:1.2rem;
+}
+
+.chart-card,
+.subj-card{
+  background:var(--white);
+  border-radius:20px;
+  padding:1.4rem;
+  border:1.5px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+.card-title{
+  font-size:1rem;
+  font-weight:900;
+  margin-bottom:1.1rem;
+}
+
+.chart-wrap{
+  position:relative;
+  height:180px;
+}
+
+.mood-y{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:6px 0;
+  pointer-events:none;
+}
+
+.mood-y span{
+  font-size:1.1rem;
+  line-height:1;
+}
+
 .subj-row{margin-bottom:.9rem}
 .subj-row:last-child{margin-bottom:0}
-.subj-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
-.subj-name{display:flex;align-items:center;gap:.5rem;font-size:.875rem;font-weight:700}
-.subj-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.subj-hours{font-size:.8rem;font-weight:700;color:var(--gray)}
-.prog-bar{height:7px;background:var(--border);border-radius:10px;overflow:hidden}
-.prog-fill{height:100%;border-radius:10px;transition:width .6s ease}
 
-/* AI INSIGHT */
-.insight-card{background:linear-gradient(135deg,var(--pink-ll),var(--blue-ll),var(--green-ll));border-radius:20px;padding:1.4rem 1.5rem;border:1.5px solid var(--border);display:flex;justify-content:space-between;align-items:flex-end}
-.insight-label{font-weight:900;font-size:.9rem;color:var(--pink-d);margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
-.insight-card p{font-size:.875rem;color:var(--dark);line-height:1.6}
-.brain-img{font-size:3.5rem;flex-shrink:0}
+.subj-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:.35rem;
+}
 
-@media(max-width:700px){.stat-grid{grid-template-columns:repeat(2,1fr)}.mid-row{grid-template-columns:1fr}}
+.subj-name{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  font-size:.875rem;
+  font-weight:700;
+}
+
+.subj-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.subj-hours{
+  font-size:.8rem;
+  font-weight:700;
+  color:var(--gray);
+}
+
+.prog-bar{
+  height:7px;
+  background:var(--border);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.prog-fill{
+  height:100%;
+  border-radius:10px;
+}
+
+.insight-card{
+  background:linear-gradient(135deg,var(--pink-ll),var(--blue-ll),var(--green-ll));
+  border-radius:20px;
+  padding:1.4rem 1.5rem;
+  border:1.5px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+
+.insight-label{
+  font-weight:900;
+  font-size:.9rem;
+  color:var(--pink-d);
+  margin-bottom:.5rem;
+}
+
+.insight-card p{
+  font-size:.875rem;
+  color:var(--dark);
+  line-height:1.6;
+}
+
+.brain-img{
+  font-size:3.5rem;
+  flex-shrink:0;
+}
+
+@media(max-width:700px){
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .mid-row{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
+
 <nav>
   <a href="index.html" class="nav-logo">🧠 MindMATE <span class="ai">AI+</span></a>
+
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="mood.html">Mood Check</a></li>
@@ -78,26 +284,60 @@ h1{font-size:1.6rem;font-weight:900;margin-bottom:.25rem}
     <li><a href="habits.html">Habits</a></li>
     <li><a href="dashboard.html" class="active">Dashboard</a></li>
   </ul>
+
   <button class="nav-avatar" onclick="doLogout()" title="Logout">Logout</button>
 </nav>
+
 <main>
   <h1>Dashboard</h1>
   <p class="sub">Your progress and insights, powered by AI.</p>
 
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-icon si-p">📋</div><div><div class="stat-val">24</div><div class="stat-lbl">Tasks Completed<br/>This Week</div></div></div>
-    <div class="stat-card"><div class="stat-icon si-b">🕐</div><div><div class="stat-val">15.6</div><div class="stat-lbl">Study Time<br/>Hours</div></div></div>
-    <div class="stat-card"><div class="stat-icon si-g">⭐</div><div><div class="stat-val">82%</div><div class="stat-lbl">Focus Score<br/>Good</div></div></div>
-    <div class="stat-card"><div class="stat-icon si-p2">🔥</div><div><div class="stat-val">7</div><div class="stat-lbl">Current Streak<br/>Days</div></div></div>
+    <div class="stat-card">
+      <div class="stat-icon si-p">📋</div>
+      <div>
+        <div class="stat-val" id="tasksCompleted">0</div>
+        <div class="stat-lbl">Tasks Completed<br/>This Week</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon si-b">🕐</div>
+      <div>
+        <div class="stat-val" id="studyHours">0</div>
+        <div class="stat-lbl">Study Time<br/>Hours</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon si-g">⭐</div>
+      <div>
+        <div class="stat-val" id="focusScore">0%</div>
+        <div class="stat-lbl">Focus Score<br/>Good</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon si-p2">🔥</div>
+      <div>
+        <div class="stat-val" id="streak">0</div>
+        <div class="stat-lbl">Current Streak<br/>Days</div>
+      </div>
+    </div>
   </div>
 
   <div class="mid-row">
     <div class="chart-card">
       <div class="card-title">Mood Trend</div>
+
       <div style="position:relative;display:flex;gap:.5rem">
         <div class="mood-y" style="width:26px">
-          <span>🤩</span><span>😊</span><span>😐</span><span>😟</span>
+          <span>🤩</span>
+          <span>😊</span>
+          <span>😐</span>
+          <span>😟</span>
         </div>
+
         <div class="chart-wrap" style="flex:1">
           <canvas id="moodChart"></canvas>
         </div>
@@ -106,21 +346,57 @@ h1{font-size:1.6rem;font-weight:900;margin-bottom:.25rem}
 
     <div class="subj-card">
       <div class="card-title">Top Subjects</div>
+
       <div class="subj-row">
-        <div class="subj-top"><div class="subj-name"><div class="subj-dot" style="background:var(--pink-d)"></div>Math</div><span class="subj-hours">6.5h</span></div>
-        <div class="prog-bar"><div class="prog-fill" style="width:90%;background:linear-gradient(90deg,var(--pink),var(--pink-d))"></div></div>
+        <div class="subj-top">
+          <div class="subj-name">
+            <div class="subj-dot" style="background:var(--pink-d)"></div>
+            Math
+          </div>
+          <span class="subj-hours">6.5h</span>
+        </div>
+        <div class="prog-bar">
+          <div class="prog-fill" style="width:90%;background:linear-gradient(90deg,var(--pink),var(--pink-d))"></div>
+        </div>
       </div>
+
       <div class="subj-row">
-        <div class="subj-top"><div class="subj-name"><div class="subj-dot" style="background:var(--blue-d)"></div>Biology</div><span class="subj-hours">4.0h</span></div>
-        <div class="prog-bar"><div class="prog-fill" style="width:56%;background:linear-gradient(90deg,var(--blue),var(--blue-d))"></div></div>
+        <div class="subj-top">
+          <div class="subj-name">
+            <div class="subj-dot" style="background:var(--blue-d)"></div>
+            Biology
+          </div>
+          <span class="subj-hours">4.0h</span>
+        </div>
+        <div class="prog-bar">
+          <div class="prog-fill" style="width:56%;background:linear-gradient(90deg,var(--blue),var(--blue-d))"></div>
+        </div>
       </div>
+
       <div class="subj-row">
-        <div class="subj-top"><div class="subj-name"><div class="subj-dot" style="background:var(--green-d)"></div>History</div><span class="subj-hours">3.0h</span></div>
-        <div class="prog-bar"><div class="prog-fill" style="width:42%;background:linear-gradient(90deg,var(--green),var(--green-d))"></div></div>
+        <div class="subj-top">
+          <div class="subj-name">
+            <div class="subj-dot" style="background:var(--green-d)"></div>
+            History
+          </div>
+          <span class="subj-hours">3.0h</span>
+        </div>
+        <div class="prog-bar">
+          <div class="prog-fill" style="width:42%;background:linear-gradient(90deg,var(--green),var(--green-d))"></div>
+        </div>
       </div>
+
       <div class="subj-row">
-        <div class="subj-top"><div class="subj-name"><div class="subj-dot" style="background:#C084FC"></div>English</div><span class="subj-hours">2.1h</span></div>
-        <div class="prog-bar"><div class="prog-fill" style="width:30%;background:linear-gradient(90deg,#E9D5FF,#C084FC)"></div></div>
+        <div class="subj-top">
+          <div class="subj-name">
+            <div class="subj-dot" style="background:#C084FC"></div>
+            English
+          </div>
+          <span class="subj-hours">2.1h</span>
+        </div>
+        <div class="prog-bar">
+          <div class="prog-fill" style="width:30%;background:linear-gradient(90deg,#E9D5FF,#C084FC)"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -128,79 +404,141 @@ h1{font-size:1.6rem;font-weight:900;margin-bottom:.25rem}
   <div class="insight-card">
     <div>
       <div class="insight-label">🤖 AI Weekly Insight</div>
-      <p>Great job! 🎉 Your productivity increased by 20% this week.<br/>You're most productive in the evening.</p>
+      <p id="weeklyInsight">
+        Great job! 🎉 Your productivity increased this week.<br/>
+        You're most productive in the evening.
+      </p>
     </div>
+
     <div class="brain-img">🧠</div>
   </div>
 </main>
+
 <script>
-const ctx=document.getElementById('moodChart').getContext('2d');
-window.moodChartInstance = new Chart(ctx,{
-  type:'line',
-  data:{
-    labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-    datasets:[{
-      data:[2,1,3,2,3,4,3],
-      borderColor:'#F9A8C0',
-      backgroundColor:'rgba(249,168,192,0.10)',
-      borderWidth:2.5,
-      pointBackgroundColor:'#E07898',
-      pointBorderColor:'#fff',
-      pointBorderWidth:2,
-      pointRadius:5,
-      pointHoverRadius:7,
-      fill:true,tension:0.4,
+const ctx = document.getElementById("moodChart").getContext("2d");
+
+window.moodChartInstance = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+    datasets: [{
+      data: [2,1,3,2,3,4,3],
+      borderColor: "#F9A8C0",
+      backgroundColor: "rgba(249,168,192,0.10)",
+      borderWidth: 2.5,
+      pointBackgroundColor: "#E07898",
+      pointBorderColor: "#fff",
+      pointBorderWidth: 2,
+      pointRadius: 5,
+      pointHoverRadius: 7,
+      fill: true,
+      tension: 0.4
     }]
   },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{const l=['','😟','😐','😊','🤩'];return ' '+(l[ctx.raw]||'');}}}},
-    scales:{
-      x:{grid:{display:false},ticks:{font:{family:'Nunito',weight:'700'},color:'#9CA3AF',size:11}},
-      y:{display:false,min:0,max:5}
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display:false },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            const labels = ["","😟","😐","😊","🤩"];
+            return " " + (labels[context.raw] || "😐");
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display:false },
+        ticks: {
+          font: { family:"Nunito", weight:"700" },
+          color:"#9CA3AF"
+        }
+      },
+      y: {
+        display:false,
+        min:0,
+        max:5
+      }
     }
   }
 });
 </script>
 
 <script type="module">
-import { onAuth, getDashboardStats, getMoodHistory, logout } from "./api.js";
+import {
+  onAuth,
+  getDashboardStats,
+  logout
+} from "./firebase.js";
 
-const MOOD_MAP = { happy: 3, motivated: 4, stressed: 2, tired: 1 };
-const MOOD_LABELS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const MOOD_MAP = {
+  tired: 1,
+  stressed: 2,
+  happy: 3,
+  motivated: 4
+};
 
-onAuth(async user => {
-  if (!user) { window.location.href = 'login.html'; return; }
-  const av = document.querySelector('.nav-avatar');
-  if (av) av.title = user.email;
+onAuth(async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const logoutBtn = document.querySelector(".nav-avatar");
+
+  if (logoutBtn) {
+    logoutBtn.title = user.email || "Logout";
+  }
 
   try {
     const stats = await getDashboardStats();
+
     if (!stats) return;
 
-    // Update stat cards
-    const vals = document.querySelectorAll('.stat-val');
-    if (vals[0]) vals[0].textContent = stats.tasksCompleted;
-    if (vals[1]) vals[1].textContent = stats.studyHours;
-    if (vals[2]) vals[2].textContent = stats.focusScore;
-    if (vals[3]) vals[3].textContent = stats.streak;
+    document.getElementById("tasksCompleted").textContent =
+      stats.tasksCompleted ?? 0;
 
-    // Update mood chart with real data
-    if (stats.moodHistory && stats.moodHistory.length > 0 && window.moodChartInstance) {
-      const data = stats.moodHistory.map(m => MOOD_MAP[m.mood] || 2);
-      window.moodChartInstance.data.datasets[0].data = data;
+    document.getElementById("studyHours").textContent =
+      stats.studyHours ?? 0;
+
+    document.getElementById("focusScore").textContent =
+      stats.focusScore ?? "0%";
+
+    document.getElementById("streak").textContent =
+      stats.streak ?? 0;
+
+    if (
+      stats.moodHistory &&
+      stats.moodHistory.length > 0 &&
+      window.moodChartInstance
+    ) {
+      const moodData = stats.moodHistory.map(item => {
+        return MOOD_MAP[item.mood] || 2;
+      });
+
+      window.moodChartInstance.data.datasets[0].data = moodData;
       window.moodChartInstance.update();
     }
 
-    // Update insight
-    const insight = document.querySelector('.insight-card p');
-    if (insight && stats.studyHours > 0) {
-      insight.innerHTML = `Javën e kaluar ke studiuar <strong>${stats.studyHours}h</strong>! 🎉<br/>Vazhdo kështu — je në rrugën e duhur!`;
+    const insight = document.getElementById("weeklyInsight");
+
+    if (insight) {
+      insight.innerHTML =
+        `Javën e fundit ke studiuar <strong>${stats.studyHours || 0}h</strong>! 🎉<br/>Vazhdo kështu — je në rrugën e duhur!`;
     }
-  } catch(e) { console.log('Dashboard stats:', e); }
+
+  } catch (error) {
+    console.log("Dashboard stats error:", error);
+  }
 });
 
-window.doLogout = async () => { await logout(); };
+window.doLogout = async function() {
+  await logout();
+};
 </script>
+
 </body>
 </html>

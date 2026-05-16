@@ -1,86 +1,398 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
 <title>MindMATE AI+</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+*,*::before,*::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
 :root{
-  /* Baby Pink */
-  --pink:#F9A8C0;--pink-d:#E07898;--pink-l:#FFD6E7;--pink-ll:#FFF0F5;
-  /* Baby Blue */
-  --blue:#A8D4F9;--blue-d:#5FA8E0;--blue-l:#D6EEFF;--blue-ll:#EFF7FF;
-  /* Baby Green */
-  --green:#A8E6C0;--green-d:#4DB87A;--green-l:#D6F5E3;--green-ll:#EDFAF3;
-  /* Neutrals */
-  --bg:#FDFAFC;--white:#fff;--dark:#2D2A3A;--gray:#7A7A8C;--border:#EDE6EF;
+
+  --pink:#F9A8C0;
+  --pink-d:#E07898;
+  --pink-l:#FFD6E7;
+  --pink-ll:#FFF0F5;
+
+  --blue:#A8D4F9;
+  --blue-d:#5FA8E0;
+  --blue-l:#D6EEFF;
+  --blue-ll:#EFF7FF;
+
+  --green:#A8E6C0;
+  --green-d:#4DB87A;
+  --green-l:#D6F5E3;
+  --green-ll:#EDFAF3;
+
+  --bg:#FDFAFC;
+  --white:#fff;
+  --dark:#2D2A3A;
+  --gray:#7A7A8C;
+  --border:#EDE6EF;
+
   --shadow:0 4px 24px rgba(249,168,192,.15);
 }
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+  min-height:100vh;
+}
 
 /* NAV */
-nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2.5rem;height:66px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 12px rgba(168,212,249,.10)}
-.nav-logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.1rem;color:var(--pink-d);text-decoration:none}
-.nav-logo .ai{color:var(--blue-d)}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;transition:color .2s}
-.nav-links a:hover,.nav-links a.active{color:var(--pink-d)}
-.btn-nav{background:linear-gradient(135deg,var(--pink),var(--blue));color:#fff;border:none;padding:10px 24px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 3px 12px rgba(249,168,192,.35)}
-.btn-nav.logout{display:none;background:linear-gradient(135deg,var(--pink-d),var(--blue-d))}
-.btn-nav:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(249,168,192,.4)}
+
+nav{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:0 2.5rem;
+  height:66px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 1px 12px rgba(168,212,249,.10);
+}
+
+.nav-logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:900;
+  font-size:1.1rem;
+  color:var(--pink-d);
+  text-decoration:none;
+}
+
+.nav-logo .ai{
+  color:var(--blue-d);
+}
+
+.nav-links{
+  display:flex;
+  gap:2rem;
+  list-style:none;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:var(--gray);
+  font-weight:600;
+  font-size:.9rem;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+  color:var(--pink-d);
+}
+
+.btn-nav{
+  background:linear-gradient(135deg,var(--pink),var(--blue));
+  color:#fff;
+  border:none;
+  padding:10px 24px;
+  border-radius:50px;
+  font-family:'Nunito',sans-serif;
+  font-weight:800;
+  font-size:.9rem;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.btn-nav.logout{
+  display:none;
+}
 
 /* HERO */
-.hero{max-width:1100px;margin:0 auto;padding:4.5rem 2rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:3rem}
-.hero-text h1{font-size:3rem;font-weight:900;line-height:1.13;margin-bottom:1.2rem}
-.hero-text h1 .hi{color:var(--pink-d)}
-.hero-text p{color:var(--gray);font-size:1rem;line-height:1.7;margin-bottom:2rem;max-width:420px}
-.hero-btns{display:flex;gap:1rem}
-.btn-primary{background:linear-gradient(135deg,var(--pink),var(--pink-d));color:#fff;border:none;padding:12px 28px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;box-shadow:0 3px 14px rgba(249,168,192,.4)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,168,192,.5)}
-.btn-outline{background:transparent;color:var(--blue-d);border:2px solid var(--blue);padding:12px 28px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
-.btn-outline:hover{background:var(--blue-ll)}
+
+.hero{
+  max-width:1100px;
+  margin:0 auto;
+  padding:4.5rem 2rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:3rem;
+}
+
+.hero-text h1{
+  font-size:3rem;
+  font-weight:900;
+  line-height:1.13;
+  margin-bottom:1.2rem;
+}
+
+.hero-text h1 .hi{
+  color:var(--pink-d);
+}
+
+.hero-text p{
+  color:var(--gray);
+  font-size:1rem;
+  line-height:1.7;
+  margin-bottom:2rem;
+  max-width:420px;
+}
+
+.hero-btns{
+  display:flex;
+  gap:1rem;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--pink),var(--pink-d));
+  color:#fff;
+  border:none;
+  padding:12px 28px;
+  border-radius:50px;
+  font-family:'Nunito',sans-serif;
+  font-weight:800;
+  font-size:.95rem;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.btn-outline{
+  background:transparent;
+  color:var(--blue-d);
+  border:2px solid var(--blue);
+  padding:12px 28px;
+  border-radius:50px;
+  font-family:'Nunito',sans-serif;
+  font-weight:800;
+  font-size:.95rem;
+  cursor:pointer;
+  text-decoration:none;
+}
 
 /* HERO VISUAL */
-.hero-visual{display:flex;justify-content:center;align-items:center}
-.hero-blob{background:linear-gradient(135deg,var(--pink-ll),var(--blue-ll),var(--green-ll));border-radius:40% 60% 60% 40%/50% 40% 60% 50%;width:380px;height:310px;display:flex;align-items:center;justify-content:center;position:relative;animation:morph 6s ease-in-out infinite}
-@keyframes morph{0%,100%{border-radius:40% 60% 60% 40%/50% 40% 60% 50%}50%{border-radius:60% 40% 40% 60%/40% 60% 40% 60%}}
-.float-icon{position:absolute;background:white;border-radius:14px;padding:8px 10px;box-shadow:var(--shadow);font-size:1.2rem;animation:flt 3s ease-in-out infinite}
-.fi1{top:12%;left:6%;animation-delay:0s}
-.fi2{top:10%;right:8%;animation-delay:.6s}
-.fi3{bottom:14%;right:6%;animation-delay:1.2s}
-@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-.robot{font-size:6.5rem;animation:bob 3.5s ease-in-out infinite;z-index:1}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+.hero-visual{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.hero-blob{
+  background:linear-gradient(
+    135deg,
+    var(--pink-ll),
+    var(--blue-ll),
+    var(--green-ll)
+  );
+
+  border-radius:40% 60% 60% 40%/50% 40% 60% 50%;
+
+  width:380px;
+  height:310px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  position:relative;
+}
+
+.float-icon{
+  position:absolute;
+  background:white;
+  border-radius:14px;
+  padding:8px 10px;
+  box-shadow:var(--shadow);
+  font-size:1.2rem;
+}
+
+.fi1{
+  top:12%;
+  left:6%;
+}
+
+.fi2{
+  top:10%;
+  right:8%;
+}
+
+.fi3{
+  bottom:14%;
+  right:6%;
+}
+
+.robot{
+  font-size:6.5rem;
+}
 
 /* FEATURES */
-.features{max-width:1100px;margin:0 auto 4rem;padding:0 2rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.feat{background:var(--white);border-radius:18px;padding:1.3rem 1rem;border:1.5px solid var(--border);display:flex;align-items:flex-start;gap:.8rem;transition:transform .2s,box-shadow .2s}
-.feat:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.feat-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
-.fi-p{background:var(--pink-l)} .fi-b{background:var(--blue-l)} .fi-g{background:var(--green-l)} .fi-p2{background:var(--pink-ll)}
-.feat h3{font-size:.875rem;font-weight:800;margin-bottom:.25rem}
-.feat p{font-size:.78rem;color:var(--gray);line-height:1.45}
+
+.features{
+  max-width:1100px;
+  margin:0 auto 4rem;
+  padding:0 2rem;
+
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+
+  gap:1rem;
+}
+
+.feat{
+  background:var(--white);
+  border-radius:18px;
+  padding:1.3rem 1rem;
+  border:1.5px solid var(--border);
+
+  display:flex;
+  align-items:flex-start;
+  gap:.8rem;
+}
+
+.feat-ico{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:1.2rem;
+}
+
+.fi-p{
+  background:var(--pink-l);
+}
+
+.fi-b{
+  background:var(--blue-l);
+}
+
+.fi-g{
+  background:var(--green-l);
+}
+
+.fi-p2{
+  background:var(--pink-ll);
+}
+
+.feat h3{
+  font-size:.875rem;
+  font-weight:800;
+  margin-bottom:.25rem;
+}
+
+.feat p{
+  font-size:.78rem;
+  color:var(--gray);
+  line-height:1.45;
+}
 
 /* CTA */
-.cta-wrap{max-width:1060px;margin:0 auto 4rem;padding:0 2rem}
-.cta-box{background:linear-gradient(135deg,var(--pink-l),var(--blue-l),var(--green-l));border-radius:24px;padding:3.5rem;text-align:center;border:1.5px solid var(--border)}
-.cta-box h2{color:var(--dark);font-size:2rem;font-weight:900;margin-bottom:.75rem}
-.cta-box p{color:var(--gray);font-size:1rem;margin-bottom:1.75rem}
-.btn-cta{background:linear-gradient(135deg,var(--pink-d),var(--blue-d));color:#fff;border:none;padding:14px 36px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;box-shadow:0 4px 16px rgba(168,212,249,.4)}
-.btn-cta:hover{transform:scale(1.04)}
 
-footer{text-align:center;padding:1.75rem;color:var(--gray);font-size:.85rem;border-top:1px solid var(--border);background:var(--white)}
+.cta-wrap{
+  max-width:1060px;
+  margin:0 auto 4rem;
+  padding:0 2rem;
+}
 
-.fade{opacity:0;transform:translateY(18px);animation:fadeUp .6s ease forwards}
-.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.35s}.d4{animation-delay:.5s}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-@media(max-width:768px){.hero{grid-template-columns:1fr;text-align:center}.hero-visual{display:none}.features{grid-template-columns:repeat(2,1fr)}.hero-text h1{font-size:2.2rem}.hero-btns{justify-content:center}}
+.cta-box{
+  background:linear-gradient(
+    135deg,
+    var(--pink-l),
+    var(--blue-l),
+    var(--green-l)
+  );
+
+  border-radius:24px;
+  padding:3.5rem;
+  text-align:center;
+}
+
+.cta-box h2{
+  color:var(--dark);
+  font-size:2rem;
+  font-weight:900;
+  margin-bottom:.75rem;
+}
+
+.cta-box p{
+  color:var(--gray);
+  font-size:1rem;
+  margin-bottom:1.75rem;
+}
+
+.btn-cta{
+  background:linear-gradient(
+    135deg,
+    var(--pink-d),
+    var(--blue-d)
+  );
+
+  color:#fff;
+  border:none;
+  padding:14px 36px;
+  border-radius:50px;
+  font-family:'Nunito',sans-serif;
+  font-weight:800;
+  font-size:1rem;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+footer{
+  text-align:center;
+  padding:1.75rem;
+  color:var(--gray);
+  font-size:.85rem;
+  border-top:1px solid var(--border);
+  background:var(--white);
+}
+
+@media(max-width:768px){
+
+  .hero{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .hero-visual{
+    display:none;
+  }
+
+  .features{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero-text h1{
+    font-size:2.2rem;
+  }
+
+  .hero-btns{
+    justify-content:center;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
+
 <nav>
-  <a href="index.html" class="nav-logo">🧠 MindMATE <span class="ai">AI+</span></a>
+
+  <a href="index.html" class="nav-logo">
+    🧠 MindMATE <span class="ai">AI+</span>
+  </a>
+
   <ul class="nav-links">
     <li><a href="index.html" class="active">Home</a></li>
     <li><a href="mood.html">Mood Check</a></li>
@@ -88,67 +400,178 @@ footer{text-align:center;padding:1.75rem;color:var(--gray);font-size:.85rem;bord
     <li><a href="habits.html">Habits</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
   </ul>
-  <a href="login.html" class="btn-nav" id="loginBtn">Login / Register</a>
-  <button class="btn-nav logout" id="logoutBtn" onclick="doLogout()">Logout</button>
+
+  <a href="login.html" class="btn-nav" id="loginBtn">
+    Login / Register
+  </a>
+
+  <button class="btn-nav logout" id="logoutBtn" onclick="doLogout()">
+    Logout
+  </button>
+
 </nav>
 
 <section class="hero">
-  <div class="hero-text fade d1">
-    <h1>Smart study.<br>Better you.<br>Powered by <span class="hi">AI.</span></h1>
-    <p>MindMATE AI+ helps students manage stress, track habits, and improve productivity with AI-powered tools and personalized support.</p>
+
+  <div class="hero-text">
+
+    <h1>
+      Smart study.<br>
+      Better you.<br>
+      Powered by <span class="hi">AI.</span>
+    </h1>
+
+    <p>
+      MindMATE AI+ helps students manage stress,
+      track habits, and improve productivity with
+      AI-powered tools and personalized support.
+    </p>
+
     <div class="hero-btns">
-      <a href="login.html" class="btn-primary" id="heroStartBtn">Get Started</a>
-      <a href="dashboard.html" class="btn-outline">See Dashboard</a>
+
+      <a href="login.html"
+         class="btn-primary"
+         id="heroStartBtn">
+
+         Get Started
+
+      </a>
+
+      <a href="dashboard.html"
+         class="btn-outline">
+
+         See Dashboard
+
+      </a>
+
     </div>
+
   </div>
-  <div class="hero-visual fade d2">
+
+  <div class="hero-visual">
+
     <div class="hero-blob">
+
       <div class="float-icon fi1">📅</div>
+
       <div class="float-icon fi2">❤️</div>
+
       <div class="float-icon fi3">📊</div>
+
       <div class="robot">🤖</div>
+
     </div>
+
   </div>
+
 </section>
 
 <section class="features">
-  <div class="feat fade d1"><div class="feat-ico fi-p">😊</div><div><h3>AI Mood Analysis</h3><p>Understand your emotions and get AI support.</p></div></div>
-  <div class="feat fade d2"><div class="feat-ico fi-b">📅</div><div><h3>AI Study Planner</h3><p>Personalized schedules made by AI.</p></div></div>
-  <div class="feat fade d3"><div class="feat-ico fi-g">✅</div><div><h3>Habit Tracker</h3><p>Build good habits and stay consistent.</p></div></div>
-  <div class="feat fade d4"><div class="feat-ico fi-p2">⏱️</div><div><h3>Pomodoro Timer</h3><p>Stay focused with smart Pomodoro sessions.</p></div></div>
+
+  <div class="feat">
+    <div class="feat-ico fi-p">😊</div>
+    <div>
+      <h3>AI Mood Analysis</h3>
+      <p>Understand your emotions and get AI support.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <div class="feat-ico fi-b">📅</div>
+    <div>
+      <h3>AI Study Planner</h3>
+      <p>Personalized schedules made by AI.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <div class="feat-ico fi-g">✅</div>
+    <div>
+      <h3>Habit Tracker</h3>
+      <p>Build good habits and stay consistent.</p>
+    </div>
+  </div>
+
+  <div class="feat">
+    <div class="feat-ico fi-p2">⏱️</div>
+    <div>
+      <h3>Pomodoro Timer</h3>
+      <p>Stay focused with smart Pomodoro sessions.</p>
+    </div>
+  </div>
+
 </section>
 
-<div class="cta-wrap fade d3">
+<div class="cta-wrap">
+
   <div class="cta-box">
+
     <h2>Ready to study smarter? 🌸</h2>
-    <p>Join thousands of students improving their productivity with MindMATE AI+</p>
-    <a href="login.html" class="btn-cta" id="ctaStartBtn">Start for Free</a>
+
+    <p>
+      Join thousands of students improving their productivity
+      with MindMATE AI+
+    </p>
+
+    <a href="login.html"
+       class="btn-cta"
+       id="ctaStartBtn">
+
+       Start for Free
+
+    </a>
+
   </div>
+
 </div>
 
-<footer>© 2026 MindMATE AI+ — Smart study. Better you.</footer>
+<footer>
+  © 2026 MindMATE AI+ — Smart study. Better you.
+</footer>
 
 <script type="module">
-import { onAuth, logout } from "./api.js";
-onAuth(user => {
-  const loginBtn = document.getElementById('loginBtn');
-  const logoutBtn = document.getElementById('logoutBtn');
-  const heroStartBtn = document.getElementById('heroStartBtn');
-  const ctaStartBtn = document.getElementById('ctaStartBtn');
+
+import { onAuth, logout } from "./firebase.js";
+
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+const heroStartBtn = document.getElementById("heroStartBtn");
+const ctaStartBtn = document.getElementById("ctaStartBtn");
+
+onAuth((user) => {
 
   if (user) {
-    if (loginBtn) loginBtn.style.display = 'none';
-    if (logoutBtn) logoutBtn.style.display = 'inline-block';
-    if (heroStartBtn) heroStartBtn.href = 'mood.html';
-    if (ctaStartBtn) ctaStartBtn.href = 'mood.html';
+
+    loginBtn.style.display = "none";
+
+    logoutBtn.style.display = "inline-block";
+
+    heroStartBtn.href = "mood.html";
+
+    ctaStartBtn.href = "mood.html";
+
   } else {
-    if (loginBtn) loginBtn.style.display = 'inline-block';
-    if (logoutBtn) logoutBtn.style.display = 'none';
-    if (heroStartBtn) heroStartBtn.href = 'login.html';
-    if (ctaStartBtn) ctaStartBtn.href = 'login.html';
+
+    loginBtn.style.display = "inline-block";
+
+    logoutBtn.style.display = "none";
+
+    heroStartBtn.href = "login.html";
+
+    ctaStartBtn.href = "login.html";
+
   }
+
 });
-window.doLogout = async () => { await logout(); };
+
+window.doLogout = async () => {
+
+  await logout();
+
+};
+
 </script>
+
 </body>
 </html>

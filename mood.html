@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Mood Check — MindMATE AI+</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -18,11 +21,10 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2.5r
 .nav-logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.1rem;color:var(--pink-d);text-decoration:none}
 .nav-logo .ai{color:var(--blue-d)}
 .nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;transition:color .2s;padding-bottom:3px}
+.nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;padding-bottom:3px}
 .nav-links a:hover{color:var(--pink-d)}
 .nav-links a.active{color:var(--pink-d);font-weight:800;border-bottom:2px solid var(--pink)}
-.nav-avatar{background:linear-gradient(135deg,var(--pink),var(--blue));color:#fff;border:none;padding:10px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s}
-.nav-avatar:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(249,168,192,.35)}
+.nav-avatar{background:linear-gradient(135deg,var(--pink),var(--blue));color:#fff;border:none;padding:10px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer}
 
 main{max-width:1050px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-template-columns:1.1fr .9fr;gap:1.5rem;align-items:start}
 
@@ -43,11 +45,9 @@ main{max-width:1050px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-temp
 .ai-rec-left{flex:1}
 .ai-rec-label{display:flex;align-items:center;gap:6px;font-weight:900;font-size:.875rem;color:var(--pink-d);margin-bottom:.6rem}
 .ai-rec p{font-size:.85rem;color:var(--dark);line-height:1.6;margin-bottom:1rem}
-.btn-pomo{background:linear-gradient(135deg,var(--pink),var(--pink-d));color:#fff;border:none;padding:10px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;box-shadow:0 3px 12px rgba(249,168,192,.4)}
-.btn-pomo:hover{transform:translateY(-2px)}
+.btn-pomo{background:linear-gradient(135deg,var(--pink),var(--pink-d));color:#fff;border:none;padding:10px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;cursor:pointer;text-decoration:none;display:inline-block}
 .meditation-img{font-size:4rem;flex-shrink:0;align-self:flex-end}
 
-/* CHAT */
 .chat-card{background:var(--white);border-radius:20px;border:1.5px solid var(--blue-l);box-shadow:0 4px 24px rgba(168,212,249,.15);display:flex;flex-direction:column;height:520px}
 .chat-header{padding:1.1rem 1.25rem;border-bottom:1px solid var(--blue-l);background:var(--blue-ll);border-radius:20px 20px 0 0}
 .chat-header h3{font-size:1rem;font-weight:900;margin-bottom:2px;color:var(--blue-d)}
@@ -62,20 +62,22 @@ main{max-width:1050px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-temp
 .msg.user .bubble{background:linear-gradient(135deg,var(--pink),var(--pink-d));color:#fff;border-bottom-right-radius:4px}
 .chat-input-row{padding:.85rem 1.1rem;border-top:1px solid var(--blue-l);display:flex;gap:.6rem;align-items:center}
 .chat-input{flex:1;border:1.5px solid var(--blue-l);border-radius:50px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:.875rem;font-weight:600;color:var(--dark);outline:none;background:var(--bg)}
-.chat-input:focus{border-color:var(--blue)}
-.chat-input::placeholder{color:#B0B7BF}
-.send-btn{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--blue-d));border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;transition:all .2s;flex-shrink:0}
-.send-btn:hover{transform:scale(1.1)}
+.send-btn{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--blue-d));border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0}
 .typing{display:none;align-items:center;gap:4px;padding:.5rem .9rem}
-.typing span{width:7px;height:7px;background:var(--blue-d);border-radius:50%;display:inline-block;animation:blink 1.2s infinite}
-.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
-@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
-@media(max-width:768px){main{grid-template-columns:1fr}.mood-grid{grid-template-columns:repeat(2,1fr)}.chat-card{height:400px}}
+
+@media(max-width:768px){
+  main{grid-template-columns:1fr}
+  .mood-grid{grid-template-columns:repeat(2,1fr)}
+  .chat-card{height:400px}
+}
 </style>
 </head>
+
 <body>
+
 <nav>
   <a href="index.html" class="nav-logo">🧠 MindMATE <span class="ai">AI+</span></a>
+
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="mood.html" class="active">Mood Check</a></li>
@@ -83,87 +85,194 @@ main{max-width:1050px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-temp
     <li><a href="habits.html">Habits</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
   </ul>
+
   <button class="nav-avatar" onclick="doLogout()" title="Logout">Logout</button>
 </nav>
+
 <main>
   <div class="left">
     <h1>How are you feeling today? 💜</h1>
     <p class="sub">Your mood helps AI personalize your experience.</p>
+
     <div class="mood-grid">
-      <div class="mood-card mc-happy" onclick="selectMood(this,'happy')"><span class="mood-face">😊</span><div class="mood-name">Happy</div><div class="mood-desc">I feel great and positive!</div></div>
-      <div class="mood-card mc-stressed selected" onclick="selectMood(this,'stressed')"><span class="mood-face">😟</span><div class="mood-name">Stressed</div><div class="mood-desc">I feel overwhelmed or anxious.</div></div>
-      <div class="mood-card mc-tired" onclick="selectMood(this,'tired')"><span class="mood-face">😴</span><div class="mood-name">Tired</div><div class="mood-desc">I feel low on energy and tired.</div></div>
-      <div class="mood-card mc-motivated" onclick="selectMood(this,'motivated')"><span class="mood-face">🤩</span><div class="mood-name">Motivated</div><div class="mood-desc">I'm ready to crush my goals!</div></div>
+      <div class="mood-card mc-happy" onclick="selectMood(this,'happy')">
+        <span class="mood-face">😊</span>
+        <div class="mood-name">Happy</div>
+        <div class="mood-desc">I feel great and positive!</div>
+      </div>
+
+      <div class="mood-card mc-stressed selected" onclick="selectMood(this,'stressed')">
+        <span class="mood-face">😟</span>
+        <div class="mood-name">Stressed</div>
+        <div class="mood-desc">I feel overwhelmed or anxious.</div>
+      </div>
+
+      <div class="mood-card mc-tired" onclick="selectMood(this,'tired')">
+        <span class="mood-face">😴</span>
+        <div class="mood-name">Tired</div>
+        <div class="mood-desc">I feel low on energy and tired.</div>
+      </div>
+
+      <div class="mood-card mc-motivated" onclick="selectMood(this,'motivated')">
+        <span class="mood-face">🤩</span>
+        <div class="mood-name">Motivated</div>
+        <div class="mood-desc">I'm ready to crush my goals!</div>
+      </div>
     </div>
+
     <div class="ai-rec">
       <div class="ai-rec-left">
         <div class="ai-rec-label">✨ AI Recommendation</div>
-        <p id="recText">It looks like you're feeling stressed.<br>Take a deep breath 🌬️<br>Try a 10-min breathing exercise or a Pomodoro session to reset.</p>
+        <p id="recText">
+          It looks like you're feeling stressed.<br>
+          Take a deep breath 🌬️<br>
+          Try a 10-min breathing exercise or a Pomodoro session to reset.
+        </p>
         <a href="habits.html" class="btn-pomo">Start Pomodoro</a>
       </div>
+
       <div class="meditation-img">🧘‍♀️</div>
     </div>
   </div>
+
   <div class="chat-card">
-    <div class="chat-header"><h3>🤖 AI Assistant</h3><p>Your personal AI study coach 💙</p></div>
-    <div class="chat-messages" id="chatMessages">
-      <div class="msg bot"><div class="bot-avatar">🤖</div><div class="bubble">Hi! I'm your AI assistant.<br>How can I help you today?</div></div>
-      <div class="msg user"><div class="bubble">I'm stressed and I have too many things to study.</div></div>
-      <div class="msg bot"><div class="bot-avatar">🤖</div><div class="bubble">I understand. Let's organize your tasks and create a study plan that works for you.<br><br>Would you like me to generate a plan?</div></div>
-      <div class="msg user"><div class="bubble">Yes, please!</div></div>
+    <div class="chat-header">
+      <h3>🤖 AI Assistant</h3>
+      <p>Your personal AI study coach 💙</p>
     </div>
-    <div class="typing" id="typing"><div class="bot-avatar">🤖</div><div class="bubble" style="background:var(--blue-ll);border:1px solid var(--blue-l)"><span></span><span></span><span></span></div></div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot">
+        <div class="bot-avatar">🤖</div>
+        <div class="bubble">Hi! I'm your AI assistant.<br>How can I help you today?</div>
+      </div>
+    </div>
+
+    <div class="typing" id="typing">
+      <div class="bot-avatar">🤖</div>
+      <div class="bubble" style="background:var(--blue-ll);border:1px solid var(--blue-l)">
+        ...
+      </div>
+    </div>
+
     <div class="chat-input-row">
       <input class="chat-input" id="chatInput" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendMsg()"/>
       <button class="send-btn" onclick="sendMsg()">➤</button>
     </div>
   </div>
 </main>
+
 <script>
-const moods={
-  happy:{rec:"You're in a great mood! 🌟 This is the perfect time to tackle your hardest subject. Start with a 25-min Pomodoro session!"},
-  stressed:{rec:"It looks like you're feeling stressed.<br>Take a deep breath 🌬️<br>Try a 10-min breathing exercise or a Pomodoro session to reset."},
-  tired:{rec:"You're feeling low energy. 💤<br>Consider a 15-min power nap, then start with lighter reading tasks before harder ones."},
-  motivated:{rec:"Amazing energy! 🚀<br>You're ready to crush it. Set a challenging study goal and track your progress in the Planner!"},
+const moods = {
+  happy: {
+    rec: "You're in a great mood! 🌟 This is the perfect time to tackle your hardest subject. Start with a 25-min Pomodoro session!"
+  },
+  stressed: {
+    rec: "It looks like you're feeling stressed.<br>Take a deep breath 🌬️<br>Try a 10-min breathing exercise or a Pomodoro session to reset."
+  },
+  tired: {
+    rec: "You're feeling low energy. 💤<br>Consider a 15-min power nap, then start with lighter reading tasks before harder ones."
+  },
+  motivated: {
+    rec: "Amazing energy! 🚀<br>You're ready to crush it. Set a challenging study goal and track your progress in the Planner!"
+  }
 };
-function selectMood(el,key){
-  document.querySelectorAll('.mood-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('recText').innerHTML=moods[key].rec;
-}
-const replies=["Of course! I'll create a personalized study plan for you right away. 📅","Based on your mood, I recommend starting with shorter 25-minute sessions. Would you like me to set up a Pomodoro timer?","Great idea! Remember: consistency is more important than intensity. Small steps every day add up! 💪","I can also help you track your habits. Head to the Habits page to set up your daily routines!","You're doing amazing! Keep going — progress, not perfection. 🌟"];
-let ri=0;
-function sendMsg(){
-  const inp=document.getElementById('chatInput');const val=inp.value.trim();if(!val)return;inp.value='';
-  const msgs=document.getElementById('chatMessages');
-  const u=document.createElement('div');u.className='msg user';u.innerHTML=`<div class="bubble">${val}</div>`;msgs.appendChild(u);msgs.scrollTop=msgs.scrollHeight;
-  const t=document.getElementById('typing');t.style.display='flex';msgs.scrollTop=msgs.scrollHeight;
-  setTimeout(()=>{t.style.display='none';const b=document.createElement('div');b.className='msg bot';b.innerHTML=`<div class="bot-avatar">🤖</div><div class="bubble">${replies[ri%replies.length]}</div>`;msgs.appendChild(b);ri++;msgs.scrollTop=msgs.scrollHeight;},1200);
-}
+
+window.selectMood = async function(el, key) {
+  document.querySelectorAll(".mood-card").forEach(card => {
+    card.classList.remove("selected");
+  });
+
+  el.classList.add("selected");
+
+  document.getElementById("recText").innerHTML = moods[key].rec;
+
+  if (window.saveMoodToFirebase) {
+    await window.saveMoodToFirebase(key);
+  }
+};
+
+const replies = [
+  "Of course! I'll create a personalized study plan for you right away. 📅",
+  "Based on your mood, I recommend starting with shorter 25-minute sessions.",
+  "Great idea! Consistency is more important than intensity. 💪",
+  "You can also track your habits in the Habits page!",
+  "You're doing amazing! Progress, not perfection. 🌟"
+];
+
+let replyIndex = 0;
+
+window.sendMsg = function() {
+  const input = document.getElementById("chatInput");
+  const value = input.value.trim();
+
+  if (!value) return;
+
+  input.value = "";
+
+  const messages = document.getElementById("chatMessages");
+
+  const userMsg = document.createElement("div");
+  userMsg.className = "msg user";
+  userMsg.innerHTML = `<div class="bubble">${value}</div>`;
+  messages.appendChild(userMsg);
+
+  const typing = document.getElementById("typing");
+  typing.style.display = "flex";
+
+  messages.scrollTop = messages.scrollHeight;
+
+  setTimeout(() => {
+    typing.style.display = "none";
+
+    const botMsg = document.createElement("div");
+    botMsg.className = "msg bot";
+    botMsg.innerHTML = `
+      <div class="bot-avatar">🤖</div>
+      <div class="bubble">${replies[replyIndex % replies.length]}</div>
+    `;
+
+    messages.appendChild(botMsg);
+    replyIndex++;
+
+    messages.scrollTop = messages.scrollHeight;
+  }, 900);
+};
 </script>
 
 <script type="module">
-import { onAuth, saveMood, logout } from "./api.js";
+import {
+  onAuth,
+  saveMood,
+  logout
+} from "./firebase.js";
 
-// Auth guard - redirect to login if not logged in
-onAuth(user => {
-  if (!user) { window.location.href = 'login.html'; return; }
-  // Show username
-  const av = document.querySelector('.nav-avatar');
-  if (av) av.title = user.email;
+onAuth((user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const logoutBtn = document.querySelector(".nav-avatar");
+
+  if (logoutBtn) {
+    logoutBtn.title = user.email || "Logout";
+  }
 });
 
-// Override selectMood to also save to the PHP backend
-const origSelect = window.selectMood;
-window.selectMood = async function(el, key) {
-  origSelect(el, key);
-  try { await saveMood(key); } catch(e) { console.log('Mood save:', e); }
+window.saveMoodToFirebase = async function(mood) {
+  try {
+    await saveMood(mood);
+    console.log("Mood saved:", mood);
+  } catch (error) {
+    console.log("Mood save error:", error);
+  }
 };
 
-// Logout button
-window.doLogout = async () => {
+window.doLogout = async function() {
   await logout();
 };
 </script>
+
 </body>
 </html>

@@ -102,7 +102,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--pin
 import { login, register, onAuth } from "./api.js";
 
 // Nëse tashmë i loguar, shko te index
-onAuth(user => { if (user) window.location.href = "index.html"; });
+onAuth(user => {
+  if (user && window.location.pathname.includes("login.html")) {
+    window.location.href = "index.html";
+  }
+});
 
 function showMsg(text, type='error') {
   const el = document.getElementById('msg');
