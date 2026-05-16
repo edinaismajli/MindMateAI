@@ -1,12 +1,23 @@
 // MindMATE AI+ PHP API helper.
 
-const API_URL = (() => {
+const API_URLS = (() => {
+  const phpServerUrl = 'http://127.0.0.1:8000/api.php';
+
   if (window.location.protocol === 'file:') {
-    return 'http://127.0.0.1:8000/api.php';
+    return [phpServerUrl];
   }
 
   const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
-  return `${window.location.origin}${basePath}/api.php`;
+  const sameOriginUrl = `${window.location.origin}${basePath}/api.php`;
+
+  if (
+    ['127.0.0.1', 'localhost'].includes(window.location.hostname) &&
+    window.location.port !== '8000'
+  ) {
+    return [phpServerUrl, sameOriginUrl];
+  }
+
+  return [sameOriginUrl];
 })();
 
 const TOKEN_KEY = 'mindmate_token';
@@ -42,25 +53,37 @@ async function api(action, data = {}, needsAuth = true) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  let res;
-  try {
-    res = await fetch(API_URL, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ action, ...data }),
-    });
-  } catch {
-    throw new Error('Serveri PHP nuk eshte ndezur. Hape start-server.bat dhe provo perseri.');
+  let lastError = null;
+
+  for (const url of API_URLS) {
+    let res;
+    let json = {};
+
+    try {
+      res = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ action, ...data }),
+      });
+      json = await res.json().catch(() => ({}));
+    } catch {
+      lastError = new Error('Serveri PHP nuk eshte ndezur. Hape start-server.bat dhe provo perseri.');
+      continue;
+    }
+
+    if (res.ok && json.ok !== false) {
+      return json;
+    }
+
+    lastError = new Error(json.message || 'API request failed.');
+    lastError.code = json.code || 'api/error';
+
+    if (res.status !== 404) {
+      break;
+    }
   }
 
-  const json = await res.json().catch(() => ({}));
-  if (!res.ok || json.ok === false) {
-    const err = new Error(json.message || 'API request failed.');
-    err.code = json.code || 'api/error';
-    throw err;
-  }
-
-  return json;
+  throw lastError || new Error('API request failed.');
 }
 
 export async function register(email, password, name) {
