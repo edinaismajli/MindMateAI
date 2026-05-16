@@ -42,11 +42,16 @@ async function api(action, data = {}, needsAuth = true) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ action, ...data }),
-  });
+  let res;
+  try {
+    res = await fetch(API_URL, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ action, ...data }),
+    });
+  } catch {
+    throw new Error('Serveri PHP nuk eshte ndezur. Hape start-server.bat dhe provo perseri.');
+  }
 
   const json = await res.json().catch(() => ({}));
   if (!res.ok || json.ok === false) {
