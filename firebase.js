@@ -22,10 +22,6 @@ import {
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ======================================================
-//  FIREBASE CONFIG
-//  KTU VEQ NDRROJI ME TUTAT PREJ FIREBASE
-// ======================================================
 
 const firebaseConfig = {
   apiKey: "PASTE_API_KEY",
@@ -36,18 +32,13 @@ const firebaseConfig = {
   appId: "PASTE_APP_ID",
 };
 
-// ======================================================
-//  INIT
-// ======================================================
 
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// ======================================================
-//  AUTH FUNCTIONS
-// ======================================================
+
 
 export async function register(email, password, name) {
   const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -79,9 +70,6 @@ export function onAuth(callback) {
   onAuthStateChanged(auth, callback);
 }
 
-// ======================================================
-//  GOOGLE LOGIN
-// ======================================================
 
 export async function googleLogin() {
   const provider = new GoogleAuthProvider();
@@ -91,9 +79,7 @@ export async function googleLogin() {
   return result.user;
 }
 
-// ======================================================
-//  USER DATA
-// ======================================================
+
 
 export async function getUserData() {
   const user = auth.currentUser;
@@ -107,9 +93,7 @@ export async function getUserData() {
   return snap.data();
 }
 
-// ======================================================
-//  MOODS
-// ======================================================
+
 
 export async function saveMood(mood) {
   const user = auth.currentUser;
