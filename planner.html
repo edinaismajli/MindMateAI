@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Study Planner — MindMATE AI+</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#F9A8C0;--pink-d:#E07898;--pink-l:#FFD6E7;--pink-ll:#FFF0F5;
+  --blue:#A8D4F9;--blue-d:#5FA8E0;--blue-l:#D6EEFF;--blue-ll:#EFF7FF;
+  --green:#A8E6C0;--green-d:#4DB87A;--green-l:#D6F5E3;--green-ll:#EDFAF3;
+  --bg:#FDFAFC;--white:#fff;--dark:#2D2A3A;--gray:#7A7A8C;--border:#EDE6EF;
+  --shadow:0 4px 24px rgba(168,212,249,.13);
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2.5rem;height:66px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.1rem;color:var(--pink-d);text-decoration:none}
+.nav-logo .ai{color:var(--blue-d)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;transition:color .2s;padding-bottom:3px}
+.nav-links a:hover{color:var(--pink-d)}
+.nav-links a.active{color:var(--pink-d);font-weight:800;border-bottom:2px solid var(--pink)}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--pink-l);display:flex;align-items:center;justify-content:center;font-size:1rem}
+
+main{max-width:950px;margin:0 auto;padding:2.5rem 1.5rem}
+.page-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.page-top h1{font-size:1.6rem;font-weight:900;display:flex;align-items:center;gap:.5rem}
+.page-top p{font-size:.88rem;color:var(--gray);margin-top:.25rem}
+.btn-ai{background:linear-gradient(135deg,var(--pink),var(--blue-d));color:#fff;border:none;padding:11px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .2s;box-shadow:0 3px 12px rgba(168,212,249,.35)}
+.btn-ai:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(168,212,249,.4)}
+
+/* WEEK NAV */
+.week-nav{display:flex;gap:.5rem;margin-bottom:1.75rem;overflow-x:auto;padding-bottom:4px}
+.day-pill{min-width:70px;padding:.7rem .5rem;border-radius:14px;text-align:center;cursor:pointer;border:1.5px solid var(--border);background:var(--white);transition:all .2s;flex-shrink:0}
+.day-pill:hover{border-color:var(--blue);background:var(--blue-ll)}
+.day-pill.active{background:linear-gradient(135deg,var(--pink-l),var(--blue-l));border-color:var(--blue);color:var(--dark)}
+.day-pill .day-name{font-size:.72rem;font-weight:700;color:var(--gray)}
+.day-pill .day-num{font-size:1.2rem;font-weight:900;margin-top:2px}
+.day-pill.active .day-name{color:var(--pink-d)}
+.day-pill.active .day-num{color:var(--blue-d)}
+
+.planner-grid{display:grid;grid-template-columns:1fr 300px;gap:1.5rem;align-items:start}
+
+/* TABLE */
+.tasks-card{background:var(--white);border-radius:20px;border:1.5px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.tasks-header{display:grid;grid-template-columns:1.6fr 1fr 1fr .8fr;padding:.85rem 1.25rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--pink-ll),var(--blue-ll))}
+.tasks-header span{font-size:.78rem;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
+.task-row{display:grid;grid-template-columns:1.6fr 1fr 1fr .8fr;padding:.9rem 1.25rem;border-bottom:1px solid var(--border);align-items:center;transition:background .15s}
+.task-row:last-child{border-bottom:none}
+.task-row:hover{background:var(--pink-ll)}
+.task-time{font-size:.82rem;color:var(--gray);font-weight:600}
+.task-name{font-size:.9rem;font-weight:800;display:flex;align-items:center;gap:.6rem}
+.task-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);cursor:pointer;flex-shrink:0;transition:all .18s;display:inline-block}
+.task-check.done{background:var(--green-d);border-color:var(--green-d)}
+.task-subj{font-size:.82rem;color:var(--gray);font-weight:600}
+.priority{font-size:.75rem;font-weight:800;padding:4px 12px;border-radius:50px;display:inline-block}
+.p-high{background:var(--pink-l);color:var(--pink-d)}
+.p-med{background:var(--blue-l);color:var(--blue-d)}
+.p-low{background:var(--green-l);color:var(--green-d)}
+
+.add-task-btn{margin:1.1rem 1.25rem;background:transparent;border:2px dashed var(--blue);color:var(--blue-d);font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;padding:9px 18px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.add-task-btn:hover{background:var(--blue-ll)}
+
+.add-form{display:none;padding:1rem 1.25rem;border-top:1px solid var(--border);gap:.6rem;flex-wrap:wrap;align-items:center}
+.add-form.show{display:flex}
+.add-form input,.add-form select{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-family:'Nunito',sans-serif;font-size:.875rem;font-weight:600;color:var(--dark);background:var(--bg);outline:none}
+.add-form input:focus,.add-form select:focus{border-color:var(--blue)}
+.save-btn{background:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;cursor:pointer}
+
+/* AI INSIGHT */
+.ai-insight{background:linear-gradient(135deg,var(--pink-ll),var(--blue-ll),var(--green-ll));border-radius:16px;padding:1.25rem;border:1.5px solid var(--border)}
+.ai-insight-label{display:flex;align-items:center;gap:6px;font-weight:900;font-size:.875rem;color:var(--pink-d);margin-bottom:.6rem}
+.ai-insight p{font-size:.85rem;color:var(--dark);line-height:1.6}
+
+@media(max-width:700px){.planner-grid{grid-template-columns:1fr}.tasks-header,.task-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">🧠 MindMATE <span class="ai">AI+</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="mood.html">Mood Check</a></li>
+    <li><a href="planner.html" class="active">Study Planner</a></li>
+    <li><a href="habits.html">Habits</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+  <div class="nav-avatar" onclick="doLogout()" title="Logout" style="cursor:pointer">👤</div>
+</nav>
+<main>
+  <div class="page-top">
+    <div><h1>AI Study Planner ✨</h1><p>Let AI build the perfect study plan based on your goals and time.</p></div>
+    <button class="btn-ai" onclick="generatePlan()">✏️ Generate Plan with AI</button>
+  </div>
+
+  <div class="week-nav" id="weekNav"></div>
+
+  <div class="planner-grid">
+    <div>
+      <div class="tasks-card">
+        <div class="tasks-header">
+          <span>Time</span><span>Task</span><span>Subject</span><span>Priority</span>
+        </div>
+        <div id="taskList"></div>
+        <button class="add-task-btn" onclick="toggleForm()">+ Add Task</button>
+        <div class="add-form" id="addForm">
+          <input type="text" id="fTime" placeholder="9:00 AM – 10:00 AM" style="width:155px"/>
+          <input type="text" id="fTask" placeholder="Task name..." style="flex:1;min-width:120px"/>
+          <input type="text" id="fSubj" placeholder="Subject" style="width:100px"/>
+          <select id="fPrio"><option value="High">High</option><option value="Medium" selected>Medium</option><option value="Low">Low</option></select>
+          <button class="save-btn" onclick="addTask()">Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="ai-insight">
+      <div class="ai-insight-label">✨ AI Insight</div>
+      <p id="insightText">You study best in the evening. Consider scheduling difficult tasks after 4 PM.</p>
+    </div>
+  </div>
+</main>
+<script>
+const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],dates=[13,14,15,16,17,18,19];
+let activeDay=1;
+const wn=document.getElementById('weekNav');
+days.forEach((d,i)=>{
+  const el=document.createElement('div');el.className='day-pill'+(i===activeDay?' active':'');
+  el.innerHTML=`<div class="day-name">${d}</div><div class="day-num">${dates[i]}</div>`;
+  el.onclick=()=>{document.querySelectorAll('.day-pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');activeDay=i;};
+  wn.appendChild(el);
+});
+
+let tasks=[
+  {time:'9:00 AM – 10:30 AM',name:'Math Homework',subj:'Math',prio:'High',done:false},
+  {time:'11:00 AM – 12:00 PM',name:'Biology Reading',subj:'Biology',prio:'Medium',done:false},
+  {time:'2:00 PM – 3:30 PM',name:'History Notes',subj:'History',prio:'Low',done:false},
+  {time:'4:00 PM – 5:00 PM',name:'Practice Questions',subj:'Math',prio:'Medium',done:false},
+];
+
+function pc(p){return p==='High'?'p-high':p==='Low'?'p-low':'p-med'}
+function renderTasks(){
+  const l=document.getElementById('taskList');l.innerHTML='';
+  tasks.forEach((t,i)=>{
+    const r=document.createElement('div');r.className='task-row';
+    r.innerHTML=`<span class="task-time">${t.time}</span><span class="task-name"><span class="task-check ${t.done?'done':''}" onclick="togTask(${i})"></span>${t.name}</span><span class="task-subj">${t.subj}</span><span><span class="priority ${pc(t.prio)}">${t.prio}</span></span>`;
+    l.appendChild(r);
+  });
+}
+function togTask(i){tasks[i].done=!tasks[i].done;renderTasks();}
+function toggleForm(){const f=document.getElementById('addForm');f.classList.toggle('show');if(f.classList.contains('show'))document.getElementById('fTask').focus();}
+function addTask(){
+  const name=document.getElementById('fTask').value.trim();if(!name)return;
+  tasks.push({time:document.getElementById('fTime').value||'—',name,subj:document.getElementById('fSubj').value||'—',prio:document.getElementById('fPrio').value,done:false});
+  document.getElementById('fTime').value='';document.getElementById('fTask').value='';document.getElementById('fSubj').value='';
+  document.getElementById('addForm').classList.remove('show');renderTasks();
+}
+function generatePlan(){
+  tasks=[
+    {time:'9:00 AM – 10:00 AM',name:'Review Lecture Notes',subj:'Math',prio:'High',done:false},
+    {time:'10:30 AM – 11:30 AM',name:'Chapter Summary',subj:'Biology',prio:'Medium',done:false},
+    {time:'1:00 PM – 2:00 PM',name:'Practice Problems',subj:'Physics',prio:'High',done:false},
+    {time:'3:00 PM – 4:00 PM',name:'Essay Draft',subj:'History',prio:'Low',done:false},
+    {time:'5:00 PM – 6:00 PM',name:'Flashcard Review',subj:'Math',prio:'Medium',done:false},
+  ];
+  renderTasks();
+  document.getElementById('insightText').textContent='AI plan generated! Your peak focus time is 9–11 AM and 5–7 PM. Hard tasks are scheduled accordingly. 🎯';
+}
+renderTasks();
+</script>
+
+<script type="module">
+import { onAuth, getTasks, saveTasks, logout } from "./firebase.js";
+
+const DAYS_ARR = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DATES_ARR = [13,14,15,16,17,18,19];
+
+onAuth(async user => {
+  if (!user) { window.location.href = 'login.html'; return; }
+  const av = document.querySelector('.nav-avatar');
+  if (av) av.title = user.email;
+
+  // Load tasks for active day from Firebase
+  async function loadDay(idx) {
+    const key = '2026-05-' + String(DATES_ARR[idx]).padStart(2,'0');
+    try {
+      const fbTasks = await getTasks(key);
+      if (fbTasks) {
+        tasks.length = 0;
+        fbTasks.forEach(t => tasks.push(t));
+        if (typeof renderTasks === 'function') renderTasks();
+      }
+    } catch(e) { console.log('Load tasks:', e); }
+  }
+
+  // Auto-save tasks when changed
+  const origAddTask = window.addTask;
+  window.addTask = async function() {
+    origAddTask();
+    const key = '2026-05-' + String(DATES_ARR[window.activeDay||1]).padStart(2,'0');
+    try { await saveTasks(key, tasks); } catch(e){}
+  };
+
+  const origTogTask = window.togTask;
+  window.togTask = async function(i) {
+    origTogTask(i);
+    const key = '2026-05-' + String(DATES_ARR[window.activeDay||1]).padStart(2,'0');
+    try { await saveTasks(key, tasks); } catch(e){}
+  };
+
+  await loadDay(window.activeDay || 1);
+});
+
+window.doLogout = async () => { await logout(); };
+</script>
+</body>
+</html>

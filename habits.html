@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Habits — MindMATE AI+</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#F9A8C0;--pink-d:#E07898;--pink-l:#FFD6E7;--pink-ll:#FFF0F5;
+  --blue:#A8D4F9;--blue-d:#5FA8E0;--blue-l:#D6EEFF;--blue-ll:#EFF7FF;
+  --green:#A8E6C0;--green-d:#4DB87A;--green-l:#D6F5E3;--green-ll:#EDFAF3;
+  --bg:#FDFAFC;--white:#fff;--dark:#2D2A3A;--gray:#7A7A8C;--border:#EDE6EF;
+  --shadow:0 4px 24px rgba(168,212,249,.13);
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2.5rem;height:66px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.1rem;color:var(--pink-d);text-decoration:none}
+.nav-logo .ai{color:var(--blue-d)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;transition:color .2s;padding-bottom:3px}
+.nav-links a:hover{color:var(--pink-d)}
+.nav-links a.active{color:var(--pink-d);font-weight:800;border-bottom:2px solid var(--pink)}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--pink-l);display:flex;align-items:center;justify-content:center;font-size:1rem}
+
+main{max-width:1000px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-template-columns:1.15fr .85fr;gap:1.5rem;align-items:start}
+.left{display:flex;flex-direction:column;gap:1.25rem}
+.right{display:flex;flex-direction:column;gap:1.25rem}
+
+/* HABIT CARD */
+.habit-card{background:var(--white);border-radius:20px;padding:1.6rem 1.4rem;border:1.5px solid var(--border);box-shadow:var(--shadow)}
+.habit-card h2{font-size:1.2rem;font-weight:900;margin-bottom:.2rem}
+.habit-card .sub{font-size:.85rem;color:var(--gray);margin-bottom:1.4rem}
+.habit-table{width:100%;border-collapse:collapse}
+.habit-table thead th{font-size:.76rem;font-weight:800;color:var(--gray);text-align:center;padding-bottom:.7rem}
+.habit-table thead th:first-child{text-align:left}
+.habit-row td{padding:.45rem 0;vertical-align:middle}
+.habit-sep td{padding:0}
+.habit-sep hr{border:none;border-top:1px solid var(--border);margin:0}
+.h-name{display:flex;align-items:center;gap:9px;font-weight:700;font-size:.88rem;padding-right:.8rem;white-space:nowrap}
+.h-ico{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.hi-p{background:var(--pink-l)} .hi-b{background:var(--blue-l)} .hi-g{background:var(--green-l)}
+.day-cell{text-align:center}
+.chk{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);background:var(--white);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .18s;font-size:0}
+.chk.on{background:var(--green-d);border-color:var(--green-d)}
+.chk.on::after{content:'✓';color:#fff;font-size:.65rem;font-weight:900}
+.chk:hover:not(.on){border-color:var(--blue);background:var(--blue-ll)}
+.add-btn{margin-top:1.1rem;background:transparent;border:2px dashed var(--green-d);color:var(--green-d);font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;padding:9px 18px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.add-btn:hover{background:var(--green-ll)}
+.add-row{display:none;margin-top:.85rem;gap:.5rem;align-items:center;flex-wrap:wrap}
+.add-row.show{display:flex}
+.add-row input{flex:1;min-width:120px;border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-family:'Nunito',sans-serif;font-size:.875rem;font-weight:600;color:var(--dark);background:var(--bg);outline:none}
+.add-row input:focus{border-color:var(--green)}
+.add-row select{border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:.95rem;background:var(--white);cursor:pointer}
+.save-h{background:linear-gradient(135deg,var(--green),var(--green-d));color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.875rem;cursor:pointer}
+
+/* AI TIP */
+.ai-tip{background:linear-gradient(135deg,var(--pink-ll),var(--blue-ll),var(--green-ll));border-radius:16px;padding:1.2rem;border:1.5px solid var(--border);display:flex;gap:1rem;align-items:flex-end}
+.ai-tip-body{flex:1}
+.ai-tip-label{font-weight:900;font-size:.875rem;color:var(--pink-d);margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
+.ai-tip p{font-size:.85rem;color:var(--dark);line-height:1.6}
+.ai-bot{font-size:2.6rem;flex-shrink:0}
+
+/* POMODORO CARD */
+.pomo-card{background:var(--white);border-radius:20px;padding:1.6rem 1.4rem;border:1.5px solid var(--border);box-shadow:var(--shadow);text-align:center}
+.pomo-card h2{font-size:1.2rem;font-weight:900;margin-bottom:.2rem;text-align:left}
+.pomo-card .sub{font-size:.85rem;color:var(--gray);margin-bottom:1.2rem;text-align:left}
+.mode-tabs{display:flex;gap:.4rem;justify-content:center;margin-bottom:1.2rem}
+.m-tab{padding:5px 14px;border-radius:50px;font-size:.78rem;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--bg);color:var(--gray);font-family:'Nunito',sans-serif;transition:all .2s}
+.m-tab.active{background:linear-gradient(135deg,var(--pink-l),var(--blue-l));border-color:var(--blue);color:var(--dark)}
+.m-tab:hover:not(.active){background:var(--blue-ll);border-color:var(--blue);color:var(--blue-d)}
+
+.circle-wrap{position:relative;width:175px;height:175px;margin:0 auto 1.3rem}
+.c-svg{width:175px;height:175px;transform:rotate(-90deg)}
+.c-bg{fill:none;stroke:var(--blue-ll);stroke-width:10}
+.c-prog{fill:none;stroke:url(#pomoGrad);stroke-width:10;stroke-linecap:round;stroke-dasharray:489;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear}
+.t-inner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.t-time{font-size:2.4rem;font-weight:900;color:var(--dark);line-height:1}
+.t-label{font-size:.75rem;color:var(--gray);font-weight:700;margin-top:3px}
+.btn-start{background:linear-gradient(135deg,var(--pink),var(--blue-d));color:#fff;border:none;padding:12px 0;width:100%;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:all .2s;margin-bottom:.9rem;box-shadow:0 3px 14px rgba(168,212,249,.35)}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(168,212,249,.4)}
+.cycles{font-size:.875rem;font-weight:700;color:var(--gray)}
+.btn-reset{background:transparent;border:1.5px solid var(--border);color:var(--gray);padding:7px 18px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;margin-top:.6rem;transition:all .2s}
+.btn-reset:hover{background:var(--blue-ll);color:var(--blue-d);border-color:var(--blue)}
+
+@media(max-width:700px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">🧠 MindMATE <span class="ai">AI+</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="mood.html">Mood Check</a></li>
+    <li><a href="planner.html">Study Planner</a></li>
+    <li><a href="habits.html" class="active">Habits</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+  <div class="nav-avatar" onclick="doLogout()" title="Logout" style="cursor:pointer">👤</div>
+</nav>
+<main>
+  <!-- LEFT -->
+  <div class="left">
+    <div class="habit-card">
+      <h2>Habit Tracker</h2>
+      <p class="sub">Track your daily habits and build a better you.</p>
+      <table class="habit-table">
+        <thead><tr><th></th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead>
+        <tbody id="habitBody"></tbody>
+      </table>
+      <hr style="border:none;border-top:1px solid var(--border);margin-top:.9rem"/>
+      <button class="add-btn" onclick="toggleAdd()">+ Add Habit</button>
+      <div class="add-row" id="addRow">
+        <select id="hEmoji"><option>💧</option><option>📚</option><option>🏃</option><option>😴</option><option>🥗</option><option>🧘</option><option>💊</option><option>✍️</option></select>
+        <input type="text" id="hName" placeholder="Habit name..."/>
+        <button class="save-h" onclick="saveHabit()">Add</button>
+      </div>
+    </div>
+    <div class="ai-tip">
+      <div class="ai-tip-body">
+        <div class="ai-tip-label">🤖 AI Tip</div>
+        <p id="tipText">You've been consistent! Keep it up 💪<br/>Your next break is important. Stay focused!</p>
+      </div>
+      <div class="ai-bot">🤖</div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="pomo-card">
+      <h2>Pomodoro Timer</h2>
+      <p class="sub">Focus better with AI-powered Pomodoro sessions.</p>
+      <div class="mode-tabs">
+        <button class="m-tab active" onclick="setMode('focus',this)">Focus</button>
+        <button class="m-tab" onclick="setMode('short',this)">Short Break</button>
+        <button class="m-tab" onclick="setMode('long',this)">Long Break</button>
+      </div>
+      <div class="circle-wrap">
+        <svg class="c-svg" viewBox="0 0 175 175">
+          <defs>
+            <linearGradient id="pomoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#F9A8C0"/>
+              <stop offset="100%" style="stop-color:#A8D4F9"/>
+            </linearGradient>
+          </defs>
+          <circle class="c-bg" cx="87.5" cy="87.5" r="78"/>
+          <circle class="c-prog" id="cProg" cx="87.5" cy="87.5" r="78"/>
+        </svg>
+        <div class="t-inner">
+          <div class="t-time" id="tDisplay">25:00</div>
+          <div class="t-label" id="tLabel">Focus Time</div>
+        </div>
+      </div>
+      <button class="btn-start" id="startBtn" onclick="toggleTimer()">Start</button>
+      <div class="cycles">🔥 <span id="cycleNum">4</span> cycles today</div>
+      <br/>
+      <button class="btn-reset" onclick="resetTimer()">↺ Reset</button>
+    </div>
+  </div>
+</main>
+<script>
+const DAYS=7;
+const icoClass=['hi-p','hi-b','hi-g','hi-p','hi-b','hi-g','hi-p','hi-g'];
+let habits=JSON.parse(localStorage.getItem('mm_habits')||'null')||[
+  {ico:'💧',name:'Drink Water',c:[1,1,1,1,1,1,1],ci:'hi-b'},
+  {ico:'📚',name:'Read 20 pages',c:[1,1,0,0,0,0,0],ci:'hi-p'},
+  {ico:'🏃',name:'Exercise',c:[1,0,0,0,0,0,0],ci:'hi-g'},
+  {ico:'😴',name:'Sleep 8h+',c:[1,1,1,1,1,1,1],ci:'hi-p'},
+];
+const save=async()=>{
+  localStorage.setItem('mm_habits',JSON.stringify(habits)); // fallback
+  try { const {saveHabits} = await import('./firebase.js'); await saveHabits(habits); } catch(e){}
+};
+const tips=[
+  "You've been consistent! Keep it up 💪<br/>Your next break is important. Stay focused!",
+  "Great job! Drinking water daily improves focus by 30%. 💧",
+  "Reading every day compounds — you're building a powerful habit! 📚",
+  "Exercise boosts mood and memory. Keep going! 🏃",
+  "Sleep is your superpower. Protect it every night. 😴",
+];
+function render(){
+  const tbody=document.getElementById('habitBody');tbody.innerHTML='';
+  habits.forEach((h,hi)=>{
+    const tr=document.createElement('tr');tr.className='habit-row';
+    let html=`<td><div class="h-name"><div class="h-ico ${h.ci||'hi-p'}">${h.ico}</div>${h.name}</div></td>`;
+    for(let d=0;d<DAYS;d++) html+=`<td class="day-cell"><div class="chk ${h.c[d]?'on':''}" onclick="tog(${hi},${d})"></div></td>`;
+    tr.innerHTML=html;tbody.appendChild(tr);
+    if(hi<habits.length-1){const sep=document.createElement('tr');sep.className='habit-sep';sep.innerHTML=`<td colspan="8"><hr/></td>`;tbody.appendChild(sep);}
+  });
+  const done=habits.reduce((s,h)=>s+h.c.reduce((a,b)=>a+b,0),0);
+  document.getElementById('tipText').innerHTML=tips[Math.min(Math.floor(done/6),tips.length-1)];
+}
+function tog(hi,d){habits[hi].c[d]=habits[hi].c[d]?0:1;save();render();}
+function toggleAdd(){const r=document.getElementById('addRow');r.classList.toggle('show');if(r.classList.contains('show'))document.getElementById('hName').focus();}
+function saveHabit(){
+  const name=document.getElementById('hName').value.trim();if(!name)return;
+  const ci=icoClass[habits.length%icoClass.length];
+  habits.push({ico:document.getElementById('hEmoji').value,name,c:Array(DAYS).fill(0),ci});
+  document.getElementById('hName').value='';
+  document.getElementById('addRow').classList.remove('show');
+  save();render();
+}
+render();
+
+// POMODORO
+const CIRC=2*Math.PI*78;
+document.getElementById('cProg').style.strokeDasharray=CIRC;
+const DUR={focus:25*60,short:5*60,long:15*60};
+const LABELS={focus:'Focus Time',short:'Short Break',long:'Long Break'};
+let mode='focus',timeLeft=DUR.focus,totalTime=DUR.focus,running=false,iv=null,cycles=4;
+function updDisp(){
+  const m=String(Math.floor(timeLeft/60)).padStart(2,'0'),s=String(timeLeft%60).padStart(2,'0');
+  document.getElementById('tDisplay').textContent=`${m}:${s}`;
+  document.getElementById('cProg').style.strokeDashoffset=CIRC*(1-timeLeft/totalTime);
+}
+function setMode(m,btn){
+  if(running)return;mode=m;timeLeft=DUR[m];totalTime=DUR[m];
+  document.getElementById('tLabel').textContent=LABELS[m];
+  document.querySelectorAll('.m-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');updDisp();
+}
+function toggleTimer(){
+  if(running){clearInterval(iv);running=false;document.getElementById('startBtn').textContent='Start';}
+  else{
+    running=true;document.getElementById('startBtn').textContent='Pause';
+    iv=setInterval(()=>{
+      if(timeLeft>0){timeLeft--;updDisp();}
+      else{clearInterval(iv);running=false;document.getElementById('startBtn').textContent='Start';if(mode==='focus'){cycles++;document.getElementById('cycleNum').textContent=cycles;}}
+    },1000);
+  }
+}
+function resetTimer(){clearInterval(iv);running=false;timeLeft=DUR[mode];totalTime=DUR[mode];document.getElementById('startBtn').textContent='Start';updDisp();}
+updDisp();
+</script>
+
+<script type="module">
+import { onAuth, getHabits, saveHabits, logout } from "./firebase.js";
+
+onAuth(async user => {
+  if (!user) { window.location.href = 'login.html'; return; }
+  const av = document.querySelector('.nav-avatar');
+  if (av) av.title = user.email;
+  // Load habits from Firebase
+  try {
+    const fbHabits = await getHabits();
+    if (fbHabits && fbHabits.length > 0) {
+      window._habits = fbHabits;
+      // Trigger re-render with Firebase data
+      if (typeof habits !== 'undefined') {
+        habits.length = 0;
+        fbHabits.forEach(h => habits.push(h));
+        if (typeof render === 'function') render();
+      }
+    }
+  } catch(e) { console.log('Load habits:', e); }
+  // Also save pomodoro cycles to Firebase on completion
+  const origToggle = window.toggleTimer;
+  // Pomodoro auto-save handled inline
+});
+
+window.doLogout = async () => { await logout(); };
+</script>
+</body>
+</html>

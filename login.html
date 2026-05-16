@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Login — MindMATE AI+</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#F9A8C0;--pink-d:#E07898;--pink-l:#FFD6E7;--pink-ll:#FFF0F5;
+  --blue:#A8D4F9;--blue-d:#5FA8E0;--blue-l:#D6EEFF;--blue-ll:#EFF7FF;
+  --green:#A8E6C0;--green-d:#4DB87A;--green-l:#D6F5E3;--green-ll:#EDFAF3;
+  --bg:#FDFAFC;--white:#fff;--dark:#2D2A3A;--gray:#7A7A8C;--border:#EDE6EF;
+  --shadow:0 4px 28px rgba(249,168,192,.15);
+}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--pink-ll),var(--blue-ll),var(--green-ll));min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+
+.card{background:var(--white);border-radius:24px;padding:2.5rem 2rem;width:100%;max-width:420px;box-shadow:var(--shadow);border:1.5px solid var(--border)}
+.logo{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:900;font-size:1.3rem;color:var(--pink-d);margin-bottom:.4rem}
+.logo .ai{color:var(--blue-d)}
+.tagline{text-align:center;font-size:.85rem;color:var(--gray);margin-bottom:2rem}
+
+/* TABS */
+.tabs{display:flex;background:var(--bg);border-radius:12px;padding:4px;margin-bottom:1.75rem}
+.tab{flex:1;padding:9px;border-radius:9px;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s;background:transparent;color:var(--gray)}
+.tab.active{background:var(--white);color:var(--pink-d);box-shadow:0 2px 8px rgba(249,168,192,.2)}
+
+/* FORM */
+.form-group{margin-bottom:1.1rem}
+.form-group label{display:block;font-size:.82rem;font-weight:800;color:var(--dark);margin-bottom:.4rem}
+.form-group input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;color:var(--dark);background:var(--bg);outline:none;transition:border-color .2s}
+.form-group input:focus{border-color:var(--pink);background:var(--pink-ll)}
+
+.btn-submit{width:100%;background:linear-gradient(135deg,var(--pink),var(--blue-d));color:#fff;border:none;padding:13px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:all .2s;box-shadow:0 3px 14px rgba(168,212,249,.35);margin-top:.5rem}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(168,212,249,.4)}
+
+.divider{text-align:center;color:var(--gray);font-size:.82rem;font-weight:600;margin:1.1rem 0;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border)}
+.divider::before{left:0}.divider::after{right:0}
+
+.btn-google{width:100%;background:var(--white);border:1.5px solid var(--border);padding:12px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.6rem;color:var(--dark)}
+.btn-google:hover{background:var(--blue-ll);border-color:var(--blue)}
+
+.msg{padding:10px 14px;border-radius:10px;font-size:.85rem;font-weight:700;margin-bottom:1rem;display:none}
+.msg.error{background:#FEE2E2;color:#DC2626;border:1px solid #FCA5A5;display:block}
+.msg.success{background:var(--green-ll);color:var(--green-d);border:1px solid var(--green-l);display:block}
+
+.loading{display:none;text-align:center;padding:.5rem;color:var(--gray);font-size:.85rem;font-weight:700}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--pink-d);border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">🧠 MindMATE <span class="ai">AI+</span></div>
+  <p class="tagline">Smart study. Better you. Powered by AI.</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('login')">Login</button>
+    <button class="tab" onclick="showTab('register')">Register</button>
+  </div>
+
+  <div id="msg" class="msg"></div>
+  <div class="loading" id="loading"><span class="spinner"></span>Duke u lidhur...</div>
+
+  <!-- LOGIN FORM -->
+  <div id="loginForm">
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="email@gmail.com"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="btn-submit" onclick="doLogin()">Login</button>
+    <div class="divider">ose</div>
+    <button class="btn-google" onclick="doGoogle()">🌐 Vazhdo me Google</button>
+  </div>
+
+  <!-- REGISTER FORM -->
+  <div id="registerForm" style="display:none">
+    <div class="form-group">
+      <label>Emri i plotë</label>
+      <input type="text" id="regName" placeholder="Albion Hoxha"/>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="regEmail" placeholder="email@gmail.com"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="regPass" placeholder="Min. 6 karaktere" onkeydown="if(event.key==='Enter')doRegister()"/>
+    </div>
+    <button class="btn-submit" onclick="doRegister()">Krijo llogari</button>
+    <div class="divider">ose</div>
+    <button class="btn-google" onclick="doGoogle()">🌐 Regjistrohu me Google</button>
+  </div>
+</div>
+
+<script type="module">
+import { login, register, onAuth } from "./firebase.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { auth } from "./firebase.js";
+
+// Nëse tashmë i loguar, shko te index
+onAuth(user => { if (user) window.location.href = "index.html"; });
+
+function showMsg(text, type='error') {
+  const el = document.getElementById('msg');
+  el.textContent = text; el.className = 'msg ' + type;
+}
+function setLoading(v) {
+  document.getElementById('loading').style.display = v ? 'block' : 'none';
+}
+
+window.showTab = (tab) => {
+  document.getElementById('loginForm').style.display    = tab==='login'    ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab==='register' ? 'block' : 'none';
+  document.querySelectorAll('.tab').forEach((b,i) => b.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('msg').className = 'msg';
+};
+
+window.doLogin = async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  if (!email || !pass) return showMsg('Plotëso të gjitha fushat.');
+  setLoading(true);
+  try {
+    await login(email, pass);
+    window.location.href = 'index.html';
+  } catch(e) {
+    showMsg(e.code === 'auth/invalid-credential' ? 'Email ose password i gabuar.' : 'Gabim: ' + e.message);
+  } finally { setLoading(false); }
+};
+
+window.doRegister = async () => {
+  const name  = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass  = document.getElementById('regPass').value;
+  if (!name || !email || !pass) return showMsg('Plotëso të gjitha fushat.');
+  if (pass.length < 6) return showMsg('Password duhet të ketë min. 6 karaktere.');
+  setLoading(true);
+  try {
+    await register(email, pass, name);
+    showMsg('Llogaria u krijua! Duke të ridrejtuar...', 'success');
+    setTimeout(() => window.location.href = 'index.html', 1200);
+  } catch(e) {
+    showMsg(e.code === 'auth/email-already-in-use' ? 'Ky email është tashmë i regjistruar.' : 'Gabim: ' + e.message);
+  } finally { setLoading(false); }
+};
+
+window.doGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    await signInWithPopup(auth, provider);
+    window.location.href = 'index.html';
+  } catch(e) { showMsg('Google login dështoi.'); }
+};
+</script>
+</body>
+</html>
