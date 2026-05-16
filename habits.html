@@ -21,7 +21,8 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2.5r
 .nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;transition:color .2s;padding-bottom:3px}
 .nav-links a:hover{color:var(--pink-d)}
 .nav-links a.active{color:var(--pink-d);font-weight:800;border-bottom:2px solid var(--pink)}
-.nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--pink-l);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-avatar{background:linear-gradient(135deg,var(--pink),var(--blue));color:#fff;border:none;padding:10px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s}
+.nav-avatar:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(249,168,192,.35)}
 
 main{max-width:1000px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-template-columns:1.15fr .85fr;gap:1.5rem;align-items:start}
 .left{display:flex;flex-direction:column;gap:1.25rem}
@@ -96,7 +97,7 @@ main{max-width:1000px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-temp
     <li><a href="habits.html" class="active">Habits</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
   </ul>
-  <div class="nav-avatar" onclick="doLogout()" title="Logout" style="cursor:pointer">👤</div>
+  <button class="nav-avatar" onclick="doLogout()" title="Logout">Logout</button>
 </nav>
 <main>
   <!-- LEFT -->
@@ -169,7 +170,7 @@ let habits=JSON.parse(localStorage.getItem('mm_habits')||'null')||[
 ];
 const save=async()=>{
   localStorage.setItem('mm_habits',JSON.stringify(habits)); // fallback
-  try { const {saveHabits} = await import('./firebase.js'); await saveHabits(habits); } catch(e){}
+  try { const {saveHabits} = await import('./api.js'); await saveHabits(habits); } catch(e){}
 };
 const tips=[
   "You've been consistent! Keep it up 💪<br/>Your next break is important. Stay focused!",
@@ -233,18 +234,18 @@ updDisp();
 </script>
 
 <script type="module">
-import { onAuth, getHabits, saveHabits, logout } from "./firebase.js";
+import { onAuth, getHabits, saveHabits, logout } from "./api.js";
 
 onAuth(async user => {
   if (!user) { window.location.href = 'login.html'; return; }
   const av = document.querySelector('.nav-avatar');
   if (av) av.title = user.email;
-  // Load habits from Firebase
+  // Load habits from the PHP backend
   try {
     const fbHabits = await getHabits();
     if (fbHabits && fbHabits.length > 0) {
       window._habits = fbHabits;
-      // Trigger re-render with Firebase data
+      // Trigger re-render with backend data
       if (typeof habits !== 'undefined') {
         habits.length = 0;
         fbHabits.forEach(h => habits.push(h));
@@ -252,7 +253,7 @@ onAuth(async user => {
       }
     }
   } catch(e) { console.log('Load habits:', e); }
-  // Also save pomodoro cycles to Firebase on completion
+  // Also save pomodoro cycles to the backend on completion
   const origToggle = window.toggleTimer;
   // Pomodoro auto-save handled inline
 });

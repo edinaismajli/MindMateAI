@@ -21,7 +21,8 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2.5r
 .nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;transition:color .2s;padding-bottom:3px}
 .nav-links a:hover{color:var(--pink-d)}
 .nav-links a.active{color:var(--pink-d);font-weight:800;border-bottom:2px solid var(--pink)}
-.nav-avatar{width:36px;height:36px;border-radius:50%;background:var(--pink-l);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-avatar{background:linear-gradient(135deg,var(--pink),var(--blue));color:#fff;border:none;padding:10px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:all .2s}
+.nav-avatar:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(249,168,192,.35)}
 
 main{max-width:1050px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-template-columns:1.1fr .9fr;gap:1.5rem;align-items:start}
 
@@ -82,7 +83,7 @@ main{max-width:1050px;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-temp
     <li><a href="habits.html">Habits</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
   </ul>
-  <div class="nav-avatar" onclick="doLogout()" title="Logout" style="cursor:pointer">👤</div>
+  <button class="nav-avatar" onclick="doLogout()" title="Logout">Logout</button>
 </nav>
 <main>
   <div class="left">
@@ -142,7 +143,7 @@ function sendMsg(){
 </script>
 
 <script type="module">
-import { onAuth, saveMood, logout } from "./firebase.js";
+import { onAuth, saveMood, logout } from "./api.js";
 
 // Auth guard - redirect to login if not logged in
 onAuth(user => {
@@ -152,7 +153,7 @@ onAuth(user => {
   if (av) av.title = user.email;
 });
 
-// Override selectMood to also save to Firebase
+// Override selectMood to also save to the PHP backend
 const origSelect = window.selectMood;
 window.selectMood = async function(el, key) {
   origSelect(el, key);

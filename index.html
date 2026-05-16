@@ -27,6 +27,7 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2.5r
 .nav-links a{text-decoration:none;color:var(--gray);font-weight:600;font-size:.9rem;transition:color .2s}
 .nav-links a:hover,.nav-links a.active{color:var(--pink-d)}
 .btn-nav{background:linear-gradient(135deg,var(--pink),var(--blue));color:#fff;border:none;padding:10px 24px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 3px 12px rgba(249,168,192,.35)}
+.btn-nav.logout{display:none;background:linear-gradient(135deg,var(--pink-d),var(--blue-d))}
 .btn-nav:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(249,168,192,.4)}
 
 /* HERO */
@@ -87,7 +88,8 @@ footer{text-align:center;padding:1.75rem;color:var(--gray);font-size:.85rem;bord
     <li><a href="habits.html">Habits</a></li>
     <li><a href="dashboard.html">Dashboard</a></li>
   </ul>
-  <a href="mood.html" class="btn-nav">Get Started</a>
+  <a href="login.html" class="btn-nav" id="loginBtn">Login / Register</a>
+  <button class="btn-nav logout" id="logoutBtn" onclick="doLogout()">Logout</button>
 </nav>
 
 <section class="hero">
@@ -95,7 +97,7 @@ footer{text-align:center;padding:1.75rem;color:var(--gray);font-size:.85rem;bord
     <h1>Smart study.<br>Better you.<br>Powered by <span class="hi">AI.</span></h1>
     <p>MindMATE AI+ helps students manage stress, track habits, and improve productivity with AI-powered tools and personalized support.</p>
     <div class="hero-btns">
-      <a href="mood.html" class="btn-primary">Get Started</a>
+      <a href="login.html" class="btn-primary" id="heroStartBtn">Get Started</a>
       <a href="dashboard.html" class="btn-outline">See Dashboard</a>
     </div>
   </div>
@@ -120,16 +122,31 @@ footer{text-align:center;padding:1.75rem;color:var(--gray);font-size:.85rem;bord
   <div class="cta-box">
     <h2>Ready to study smarter? 🌸</h2>
     <p>Join thousands of students improving their productivity with MindMATE AI+</p>
-    <a href="mood.html" class="btn-cta">Start for Free</a>
+    <a href="login.html" class="btn-cta" id="ctaStartBtn">Start for Free</a>
   </div>
 </div>
 
 <footer>© 2026 MindMATE AI+ — Smart study. Better you.</footer>
 
 <script type="module">
-import { onAuth, logout } from "./firebase.js";
+import { onAuth, logout } from "./api.js";
 onAuth(user => {
-  if (!user) { window.location.href = 'login.html'; }
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const heroStartBtn = document.getElementById('heroStartBtn');
+  const ctaStartBtn = document.getElementById('ctaStartBtn');
+
+  if (user) {
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (logoutBtn) logoutBtn.style.display = 'inline-block';
+    if (heroStartBtn) heroStartBtn.href = 'mood.html';
+    if (ctaStartBtn) ctaStartBtn.href = 'mood.html';
+  } else {
+    if (loginBtn) loginBtn.style.display = 'inline-block';
+    if (logoutBtn) logoutBtn.style.display = 'none';
+    if (heroStartBtn) heroStartBtn.href = 'login.html';
+    if (ctaStartBtn) ctaStartBtn.href = 'login.html';
+  }
 });
 window.doLogout = async () => { await logout(); };
 </script>
